@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: import-product-batch-service
+  profiles:
+    active: dev
+info:
+  version: '@project.version@'
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+mongeez:
+  location: mongo-changelog/changelog-master.xml
+
+---
+server:
+  port: 8080
+spring:
+  profiles: dev
+  data:
+    mongodb:
+      host: localhost
+      database: import-product-batch-service
+  datasource:
+    url: jdbc:mysql://localhost/import_product_batch_service?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;autoReconnect=true;&amp;amp;useSSL=false;
+    driver-class-name: 'com.mysql.cj.jdbc.Driver'
+    username: root 
+    password: 'password'
+  batch:
+    job:
+      enabled: false
+    initialize-schema: always
+  jpa:
+    database: MYSQL  
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    properties:
+      hibernate:
+         format_sql: true
+         type: trace
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 150MB
+      location: '/tmp/import-product-batch-service'
+logging:
+  level:
+    org:
+      hibernate: 
+        type: TRACE
+      springframework:
+        type: ERROR
+    com:
+      aqasmi:
+        type: DEBUG
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serviceUrl:
+      # Eureka server address
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
