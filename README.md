@@ -1,6 +1,8 @@
+![Build](https://github.com/muhammadaliqasmi/import-product-batch-service/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 # Import Product Batch Service
 
-Import Product Batch Service is batch service that imports products from file for product-service in the marketplace.
+Import Product Batch Service is batch service that import products from xml file into mongoDB products collection.
 
 ## Getting Started
 
@@ -171,8 +173,13 @@ $ cd ~/workspace/import-product-batch-service
 # Issues the following command to run the service
 $ java -jar target/import-product-batch-service-*.jar
 ```
+To start the import job; from any rest client send a POST request to the following url
 
-Open any browser and enter the following URL
+```
+http://localhost:8080/job/execute
+```
+
+To see imported products. Open any browser and enter the following URL
 
 ```
 http://localhost:8080/products

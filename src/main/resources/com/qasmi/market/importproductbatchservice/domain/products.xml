@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+	<product>
+		<category>Food</category>
+		<name>Rice</name>
+		<description>Stable food for south Asian countries.</description>
+	</product>
+	<product>
+        <category>Fruits</category>
+        <name>Mango</name>
+        <description>A famous fruit.</description>
+    </product>
+    <product>
+        <category>Fruits</category>
+        <name>Olive</name>
+        <description>A famous fruit and remedy for many diseases.</description>
+    </product>
+    <product>
+        <category>Food</category>
+        <name>Solman</name>
+        <description> A kind of fish.</description>
+    </product>
+</products>
