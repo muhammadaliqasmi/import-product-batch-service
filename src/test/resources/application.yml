@@ -2,7 +2,7 @@ spring:
   application:
     name: import-product-batch-service
   profiles:
-    active: dev
+    active: test
 info:
   version: '@project.version@'
 management:
@@ -16,16 +16,16 @@ mongeez:
 server:
   port: 8080
 spring:
-  profiles: dev
+  profiles: test
   data:
     mongodb:
-      host: localhost
+      port: 0
       database: import-product-batch-service
   datasource:
-    url: jdbc:mysql://localhost/import_product_batch_service?createDatabaseIfNotExist=true
-    driver-class-name: 'com.mysql.cj.jdbc.Driver'
-    username: '<ENETER-USERNAME-HERE>' 
-    password: '<ENTER-PASSWORD-HERE>'
+    url: jdbc:hsqldb:mem:import_product_batch_service
+    driver-class-name: org.hsqldb.jdbcDriver
+    username: sa
+    password: 
   batch:
     job:
       enabled: false
@@ -54,4 +54,4 @@ application:
   initial-interval-sleep: 10
   chunk-size: 5000
   max-retry-attempts: 1
-  import-directory: src/main/resources/com/qasmi/market/importproductbatchservice/domain
+  import-directory: src/main/resources/com/qasmi/market/importproductbatchservice/domain  
