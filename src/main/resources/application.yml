@@ -22,10 +22,10 @@ spring:
       host: localhost
       database: import-product-batch-service
   datasource:
-    url: jdbc:mysql://localhost/import_product_batch_service?createDatabaseIfNotExist=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf-8&amp;amp;autoReconnect=true;&amp;amp;useSSL=false;
-    driver-class-name: 'com.mysql.cj.jdbc.Driver'
-    username: root 
-    password: 'password'
+    url: jdbc:mysql://localhost/import_product_batch_service?createDatabaseIfNotExist=true
+    driver-class-name: 'com.mysql.jdbc.Driver'
+    username: '<USERNAME>' 
+    password: '<PASSWORD>'
   batch:
     job:
       enabled: false
@@ -65,3 +65,9 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
+application:
+  max-parallel-jobs: 1
+  initial-interval-sleep: 10
+  chunk-size: 5000
+  max-retry-attempts: 1
+    
