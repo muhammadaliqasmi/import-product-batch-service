@@ -55,3 +55,4 @@ application:
   chunk-size: 5000
   max-retry-attempts: 1
   import-directory: src/main/resources/com/qasmi/market/importproductbatchservice/domain
+  export-product: http://localhost:8080
