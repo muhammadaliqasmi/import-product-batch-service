@@ -97,7 +97,7 @@ public class StepReaderConfig {
         final MongoItemReader<Product> reader = new MongoItemReader<>();
         reader.setTemplate(template);
         reader.setTargetType(Product.class);
-        reader.setQuery("{jobInstanceId: ?0, stepExecutionIds: ?1}");
+        reader.setQuery("{jobInstanceId: ?0, stepExecutionId: ?1}");
         reader.setParameterValues(parameterValues);
         reader.setSort(sort);
         reader.setPageSize(feedChunkSize);

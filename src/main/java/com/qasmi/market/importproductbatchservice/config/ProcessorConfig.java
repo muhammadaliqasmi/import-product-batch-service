@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.qasmi.market.importproductbatchservice.domain.Product;
+import com.qasmi.market.importproductbatchservice.job.step.processor.ExportProcessor;
+import com.qasmi.market.importproductbatchservice.service.ProductService;
 
 /**
  * This class implements all configuration for step item processors of the batch job.
@@ -23,7 +25,7 @@ public class ProcessorConfig {
     private static final Logger logger = LoggerFactory.getLogger(ProcessorConfig.class);
 
     /**
-     * @return import product processors.
+     * @return import product processor.
      */
     @Bean
     @StepScope
@@ -38,6 +40,17 @@ public class ProcessorConfig {
                 return item;
             }
         };
+    }
+    
+    /**
+     * @return export product processor.
+     */
+    @Bean
+    @StepScope
+    public ItemProcessor<Product, Product> exportProcessor(final ProductService productService, // 
+            @Value("#{jobExecutionContext[jobInstanceId]}") final Long jobInstanceId, //
+            @Value("#{jobExecutionContext[currentStepExecutionId]}") final Long stepExecutionId) {
+        return new ExportProcessor(productService, jobInstanceId, stepExecutionId);
     }
 
 }

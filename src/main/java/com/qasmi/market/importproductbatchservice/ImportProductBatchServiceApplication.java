@@ -4,6 +4,7 @@ package com.qasmi.market.importproductbatchservice;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * Represents the Application class which houses the main entry-point to run the
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Muhammad Ali Qasmi
  * @since 1.0
  */
+@EnableFeignClients
 @EnableBatchProcessing
 @SpringBootApplication
 public class ImportProductBatchServiceApplication {

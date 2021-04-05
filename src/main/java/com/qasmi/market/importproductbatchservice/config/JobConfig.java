@@ -34,6 +34,7 @@ public class JobConfig {
      * @param validator Validator for the job.
      * @param listener Listener for the job.
      * @param importProduct Step of the job.
+     * @param exportProduct Step of the job.
      * @return Import product job instance.
      */
     @Bean
@@ -41,11 +42,13 @@ public class JobConfig {
             @Qualifier("runIdIncrementer") final JobParametersIncrementer jobParametersIncrementer, //
             @Qualifier("customizedJobParametersValidator") final JobParametersValidator validator, //
             @Qualifier("customizedJobExecutionListener") final JobExecutionListener listener,
-            @Qualifier("importProduct") final Step importProduct) {
+            @Qualifier("importProduct") final Step importProduct,
+            @Qualifier("exportProduct") final Step exportProduct) {
         return jobBuilderFactory.get(IMPORT_PRODUCT_JOB_NAME) //
                 .incrementer(jobParametersIncrementer) //
                 .listener(listener) //
                 .start(importProduct) //
+                .next(exportProduct) //
                 .build();
     }
 

@@ -16,6 +16,8 @@ public class JobConstants {
     
     public static final String IMPORT_PRODUCT_STEP_NAME = "Import product";
     
+    public static final String EXPORT_PRODUCT_STEP_NAME = "Export product";
+    
     public static final String CURRENT_STEP_EXECUTION_ID = "currentStepExecutionId";
     
     public static final String PREVIOUS_STEP_EXECUTION_ID = "previousStepExecutionId";

@@ -7,6 +7,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.data.MongoItemWriter;
 import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -49,7 +50,36 @@ public class StepConfig {
                 .reader(reader) //
                 .processor(processor) //
                 .writer(writer) //
-                .listener(listener).allowStartIfComplete(true) //
+                .listener(listener) //
+                .allowStartIfComplete(true) //
+                .build();
+    }
+    
+    /**
+     * This method implements and configures import product step.
+     * 
+     * @param stepBuilderFactory Instance of step builder factory.
+     * @param chunkSize Size of the chunk to be processed at a time.
+     * @param reader The reader of the step.
+     * @param processor The processor of the step.
+     * @param writer The writer for of the step.
+     * @param listener The listener of the step.
+     * @return import product step instance.
+     */
+    @Bean
+    public Step exportProduct(final StepBuilderFactory stepBuilderFactory, //
+            @Value("${application.chunk-size}") final Integer chunkSize,
+            @Qualifier("mongodbReaderForProducts") final ItemReader<Product> reader, //
+            @Qualifier("exportProcessor") final ItemProcessor<Product, Product> processor, //
+            @Qualifier("writerForMongodb") final MongoItemWriter<Product> writer,
+            @Qualifier("customizedStepExecutionListener") final StepExecutionListener listener) {
+        return stepBuilderFactory.get(EXPORT_PRODUCT_STEP_NAME) //
+                .<Product, Product> chunk(chunkSize) //
+                .reader(reader) //
+                .processor(processor) //
+                .writer(writer) //
+                .listener(listener) //
+                .allowStartIfComplete(true) //
                 .build();
     }
 
