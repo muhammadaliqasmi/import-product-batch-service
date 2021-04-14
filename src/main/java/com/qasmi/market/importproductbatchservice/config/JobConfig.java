@@ -9,6 +9,9 @@ import org.springframework.batch.core.JobParametersIncrementer;
 import org.springframework.batch.core.JobParametersValidator;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.job.builder.FlowBuilder;
+import org.springframework.batch.core.job.flow.Flow;
+import org.springframework.batch.core.job.flow.FlowExecutionStatus;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.qasmi.market.importproductbatchservice.job.CustomizedJobExecutionListener;
 import com.qasmi.market.importproductbatchservice.job.CustomizedJobParametersValidator;
+import com.qasmi.market.importproductbatchservice.job.step.StepExecutionDecider;
 
 /**
  * This class houses all configurations for batch jobs.
@@ -42,13 +46,27 @@ public class JobConfig {
             @Qualifier("runIdIncrementer") final JobParametersIncrementer jobParametersIncrementer, //
             @Qualifier("customizedJobParametersValidator") final JobParametersValidator validator, //
             @Qualifier("customizedJobExecutionListener") final JobExecutionListener listener,
-            @Qualifier("importProduct") final Step importProduct,
-            @Qualifier("exportProduct") final Step exportProduct) {
+            @Qualifier("jobMainFlow") final Flow jobMainFlow) {
         return jobBuilderFactory.get(IMPORT_PRODUCT_JOB_NAME) //
                 .incrementer(jobParametersIncrementer) //
                 .listener(listener) //
+                .start(jobMainFlow) //
+                .end() //
+                .build();
+    }
+    
+    @Bean
+    public Flow jobMainFlow(@Qualifier("importProduct") final Step importProduct,
+            @Qualifier("exportProduct") final Step exportProduct) {
+        final StepExecutionDecider stepExecutionDecider = new StepExecutionDecider();
+        return new FlowBuilder<Flow>("exportProductFlow") //
                 .start(importProduct) //
-                .next(exportProduct) //
+                .next(stepExecutionDecider) //
+                .on(StepExecutionDecider.EXECUTE_EXPORT_STEP) //
+                .to(exportProduct) //
+                .from(stepExecutionDecider) //
+                .on(FlowExecutionStatus.COMPLETED.toString()) //
+                .end() //
                 .build();
     }
 
